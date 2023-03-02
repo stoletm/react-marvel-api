@@ -1,3 +1,5 @@
+@import '../../style/variables.scss';
+
 .comics {
     &__list {
         margin-top: 45px;
@@ -14,20 +16,32 @@
             box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
             width: 225px;
             height: 345px;
+            &-selected {
+                box-shadow: 0 5px 20px $main-color;
+                transform: translateY(-4px);
+            }
         }
         &-name {
             margin-top: 10px;
+            margin-left: 8px;
             font-weight: bold;
             font-size: 14px;
             line-height: 18px;
         }
         &-price {
             margin-top: 5px;
+            margin-left: 8px;
+            margin-bottom: 7px;
             font-weight: bold;
             font-size: 14px;
             line-height: 18px;
+            letter-spacing: 2px;
             color: rgba(0, 0, 0, 0.6);
             text-transform: uppercase;
+        }
+        &-selected {
+            box-shadow: 0 5px 20px $main-color;
+            transform: translateY(-4px);
         }
         &:hover {
             transform: translateY(-5px);
