@@ -5,4 +5,6 @@ Deployed on Pages: https://stoletm.github.io/react-marvel-api/
 
 Routing with react-router-dom
 
-![image](https://user-images.githubusercontent.com/110997274/217166110-f52afa80-5b47-4a21-bc1d-40029be0bf96.png)
+![image](https://user-images.githubusercontent.com/110997274/223935417-45bf13ac-78d7-4feb-853b-451d9d3a1568.png)
+
+![image](https://user-images.githubusercontent.com/110997274/223935462-44263435-3456-49be-b476-d185d1223899.png)
