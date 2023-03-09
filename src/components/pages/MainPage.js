@@ -25,7 +25,11 @@ const MainPage = () => {
                     <CharInfo charId={selectedChar}/>
                 </ErrorBoundary>
             </div>
-            <img className="bg-decoration" src={decoration} alt="vision"/>
+            <img 
+                className="bg-decoration" 
+                src={decoration} 
+                alt="vision"
+                />
 
         </>
     );
