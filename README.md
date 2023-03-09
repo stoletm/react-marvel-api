@@ -1,6 +1,7 @@
 Marvel characters & comics library
 
-Deployed on Pages: https://stoletm.github.io/react-marvel-api/
+Deployed on Pages: https://stoletm.github.io/react-marvel-api/ 
+(Due to conflicts between Pages and ReactRouter page 404 opens first, just click "Back to main page")
 
 Routing with react-router-dom
 
