@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 
 import Spinner from '../spinner/Spinner';
@@ -7,19 +8,22 @@ import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
 
 const CharList = (props) => {
+    const {loading, error, getAllCharacters, _baseOffset} = useMarvelService();
+    
     const [charList, setCharList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(210);
+    const [offset, setOffset] = useState();
+    // eslint-disable-next-line no-unused-vars
     const [charListEnded, setCharListEnded] = useState(false);
     const [fetching, setFetching] = useState(false);
     
-    const {loading, error, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
         if (fetching) {
             onRequest(offset, true);
             setFetching(false)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetching]);
 
     useEffect(() => {
@@ -60,25 +64,29 @@ const CharList = (props) => {
             }
             
             return (
-                <li 
-                    className="char__item"
-                    tabIndex={0}
-                    ref={el => itemRefs.current[i] = el}
-                    key={item.id}
-                    onClick={() => {
-                        props.onCharSelected(item.id);
-                        focusOnItem(i);
-                    }}
-                >
-                        <img src={item.thumbnail} alt={item.name} style={blankImgStyle}/>
-                        <div className="char__name">{item.name}</div>
-                </li>
+                <CSSTransition timeout={300} key={item.id} classNames={"char__item"}>
+                    <li 
+                        className="char__item"
+                        tabIndex={0}
+                        ref={el => itemRefs.current[i] = el}
+                        key={item.id}
+                        onClick={() => {
+                            props.onCharSelected(item.id);
+                            focusOnItem(i);
+                        }}>
+                            <img src={item.thumbnail} alt={item.name} style={blankImgStyle}/>
+                            <div className="char__name">{item.name}</div>
+                    </li>
+                </CSSTransition>
             )
         });
 
         return (
             <ul className="char__grid">
-                {items}
+                <TransitionGroup component={null}>
+                    {items}
+
+                </TransitionGroup>
             </ul>
         )
     }
@@ -96,6 +104,7 @@ const CharList = (props) => {
             {loading && newItemLoading ? <Spinner/> : (
                 <button 
                     className="button button__main button__long"
+                    style={{'display' : charListEnded ? 'none' : 'block'}}
                     onClick={() => onRequest(offset)}>
                     <div className="inner">load more</div>
                 </button>

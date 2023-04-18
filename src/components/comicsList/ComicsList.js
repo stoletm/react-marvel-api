@@ -43,17 +43,9 @@ const ComicsList = (props) => {
         }
 
         setComicsList(comicsList => [...comicsList, ...newComicsList]);
-        setNewItemLoading(newItemLoading => false);
-        setOffset(offset => offset + 9);
-        setComicsListEnded(comicsListEnded => ended);
-    }
-
-    const itemRefs = useRef([]);
-
-    const focusOnItem = (id) => {
-        itemRefs.current.forEach(item => item.classList.remove('comics__item-selected'));
-        itemRefs.current[id].classList.add('comics__item-selected');
-        itemRefs.current[id].focus();
+        setNewItemLoading(false);
+        setOffset(offset => offset + 8);
+        setComicsListEnded(ended);
     }
 
     function renderItems(arr) {
@@ -68,12 +60,7 @@ const ComicsList = (props) => {
                 <li 
                     className="comics__item"
                     tabIndex={0}
-                    ref={el => itemRefs.current[i] = el}
                     key={item.id}
-                    onClick={() => {
-                        props.onComicsSelected(item.id);
-                        focusOnItem(i);
-                    }}
                 >
                     <Link to={`/comics/${item.id}`}>
                         <img 
@@ -110,6 +97,7 @@ const ComicsList = (props) => {
             {loading && newItemLoading ? <Spinner/> : (
                 <button 
                     className="button button__main button__long"
+                    style={{'display' : comicsListEnded ? 'none' : 'block'}}
                     onClick={() => onRequest(offset)}>
                     <div className="inner">load more</div>
                 </button>

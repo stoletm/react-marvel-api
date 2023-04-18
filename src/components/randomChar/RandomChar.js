@@ -14,6 +14,7 @@ const RandomChar = () => {
 
     useEffect(() => {
         updateChar()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const onCharLoaded = (char) => {
@@ -57,7 +58,7 @@ const RandomChar = () => {
 }
 
 const View = ({char}) => {
-    const {name, description, thumbnail, homepage, wiki} = char;
+    const {name, smallDescription, thumbnail, homepage, wiki} = char;
     
     let blankImgStyle = {};
     if (thumbnail === 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg' || 'http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708.gif') {
@@ -70,14 +71,24 @@ const View = ({char}) => {
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">
-                    {description}
+                    {smallDescription}
                 </p>
                 <div className="randomchar__btns">
-                    <a href={homepage} className="button button__main">
-                        <div className="inner">homepage</div>
+                    <a 
+                        href={homepage} 
+                        className="button button__main" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        >
+                            <div className="inner">homepage</div>
                     </a>
-                    <a href={wiki} className="button button__secondary">
-                        <div className="inner">Wiki</div>
+                    <a 
+                        href={wiki} 
+                        className="button button__secondary" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        >
+                            <div className="inner">Wiki</div>
                     </a>
                 </div>
             </div>
