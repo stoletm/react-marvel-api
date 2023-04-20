@@ -7,12 +7,31 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 import './charList.scss';
 
+const setContent = (process, Component, newItemLoading) => {
+    switch(process) {
+        case 'waiting':
+            return <Spinner/>
+            break;
+        case 'loading':
+            return newItemLoading ? <Component/> : <Spinner/>;
+            break;
+        case 'fetched':
+            return <Component/>
+            break;
+        case 'error':
+            return <ErrorMessage/>;
+            break;
+        default:
+            throw new Error('Unexpected process state');
+    }
+}
+
 const CharList = (props) => {
-    const {loading, error, getAllCharacters, _baseOffset} = useMarvelService();
+    const {getAllCharacters, _baseOffset, process, setProcess} = useMarvelService();
     
     const [charList, setCharList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState();
+    const [offset, setOffset] = useState(_baseOffset);
     // eslint-disable-next-line no-unused-vars
     const [charListEnded, setCharListEnded] = useState(false);
     const [fetching, setFetching] = useState(false);
@@ -33,7 +52,8 @@ const CharList = (props) => {
     const onRequest = (offset, initial) => {
         initial ? setNewItemLoading(false) : setNewItemLoading(true);
         getAllCharacters(offset)
-            .then(onCharListLoaded);
+            .then(onCharListLoaded)
+            .then(() => setProcess('fetched'))            
     }
 
     const onCharListLoaded = (newCharList) => {
@@ -90,18 +110,11 @@ const CharList = (props) => {
             </ul>
         )
     }
-    
-    const items = renderItems(charList);
-
-    const errorMessage = error ? <ErrorMessage/> : null;
-    const spinner = loading && !newItemLoading ? <Spinner/> : null;
 
     return (
         <div className="char__list">
-            {errorMessage}
-            {spinner}
-            {items}
-            {loading && newItemLoading ? <Spinner/> : (
+            {setContent(process, () => renderItems(charList), newItemLoading)}
+            {process === 'loading' && newItemLoading ? <Spinner/> : (
                 <button 
                     className="button button__main button__long"
                     style={{'display' : charListEnded ? 'none' : 'block'}}
